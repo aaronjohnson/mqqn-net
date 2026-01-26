@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mqqn - Where Physical Devices Connect with Data Systems</title>
+    <meta name="description" content="Software that bridges the physical world and digital systems. Apps for fitness, forestry, and beyond.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="mqqn">
+    <meta property="og:description" content="Where physical devices connect with data systems">
+    <meta property="og:url" content="https://mqqn.net">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --text-primary: #e8e8ec;
+            --text-secondary: #9898a8;
+            --accent: #6366f1;
+            --accent-light: #a5b4fc;
+            --green: #4ade80;
+            --wood: #c49a6c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            background: radial-gradient(ellipse at top, var(--bg-secondary) 0%, var(--bg-primary) 70%);
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, var(--accent-light), var(--text-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-light);
+        }
+
+        /* Philosophy */
+        .philosophy {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .philosophy p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .philosophy p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Apps */
+        .apps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .app-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--bg-card);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            margin-bottom: 1rem;
+        }
+
+        .app-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-card .app-tagline {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .app-card .app-link {
+            color: var(--accent-light);
+            font-size: 0.9rem;
+        }
+
+        .step-quest .app-icon {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+        }
+
+        .digital-forester .app-icon {
+            background: #1B5E20;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--bg-card);
+            margin-top: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-light);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 3rem;
+            }
+
+            .tagline {
+                font-size: 1.25rem;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="logo">mqqn</div>
+        <p class="tagline">Where physical devices connect with data systems</p>
+    </header>
+
+    <main class="container">
+        <section class="section">
+            <h2 class="section-title">Philosophy</h2>
+            <div class="philosophy">
+                <p>We build software that bridges the physical world and digital systems. Your phone's sensors, your watch's pedometer, your camera in the field—these are gateways between what you do and the data that makes it meaningful.</p>
+                <p>Our apps transform raw sensor data into actionable insights: steps become progress, photos become species identification, locations become forest inventory.</p>
+                <p>We use technology thoughtfully. Machine learning runs on-device for privacy. AI assists our development process. But the focus is always on delivering real value—not chasing buzzwords.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Apps</h2>
+            <div class="apps">
+                <a href="https://step.quest.mqqn.net" class="app-card step-quest">
+                    <div class="app-icon"></div>
+                    <h3>Step Quest</h3>
+                    <p class="app-tagline">Turn your daily steps into an adventure. Level up, earn achievements, build healthy habits.</p>
+                    <span class="app-link">step.quest.mqqn.net</span>
+                </a>
+
+                <a href="https://forester.mqqn.net" class="app-card digital-forester">
+                    <div class="app-icon"></div>
+                    <h3>Digital Forester</h3>
+                    <p class="app-tagline">Identify species. Grade saw logs. Document your timber.</p>
+                    <span class="app-link">forester.mqqn.net</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="mailto:apps@mqqn.net">Contact</a>
+            <a href="https://github.com/aaronjohnson">GitHub</a>
+            <a href="https://patreon.com/mqqn">Patreon</a>
+        </div>
+        <p class="copyright">&copy; 2026 mqqn.net. All rights reserved.</p>
+    </footer>
+</body>
+</html>
