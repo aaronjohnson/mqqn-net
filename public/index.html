@@ -43,6 +43,37 @@
             line-height: 1.4;
         }
 
+        .bullets {
+            list-style: none;
+            max-width: 400px;
+            margin: 1.5rem auto;
+            text-align: left;
+        }
+
+        .bullets li {
+            color: #aaa;
+            font-size: 0.95rem;
+            padding: 0.3rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .bullets li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #555;
+        }
+
+        .bullets a {
+            color: #33ff33;
+            text-decoration: none;
+        }
+
+        .bullets a:hover {
+            color: #66ff66;
+        }
+
         .domain {
             font-size: 0.85rem;
             color: #555;
@@ -195,6 +226,13 @@
 <body>
     <header class="hero">
         <p class="tagline">Where physical devices meet data systems</p>
+        <ul class="bullets">
+            <li>30+ years solving real problems with software</li>
+            <li>Connecting sensors and devices to meaningful data</li>
+            <li>Forestry. Fitness. Ocean science. And beyond.</li>
+            <li>Technology that serves people, not exploits them</li>
+            <li>Available now — <a href="https://calendar.app.google/iYkXbgEK9YVx2fjn7">let's talk</a></li>
+        </ul>
         <p class="domain">mqqn.net</p>
     </header>
 
