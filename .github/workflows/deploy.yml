@@ -1,6 +1,6 @@
 name: Deploy to Firebase Hosting
 
-# Merging a PR to main does not deploy. Production deploys happen when a
+# Merging a PR to the default branch does not deploy. Production deploys happen when a
 # release tag (v*) is pushed, e.g. by publishing a GitHub Release, or by a
 # manual run of this workflow against such a tag.
 on:
@@ -25,14 +25,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Require a release tag on main
+      - name: Require a release tag on the default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
             echo "::error::Deploy must run against a release tag, not ${GITHUB_REF}"
             exit 1
           fi
-          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
-            echo "::error::Tag ${GITHUB_REF_NAME} is not on main"
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" "origin/${DEFAULT_BRANCH}"; then
+            echo "::error::Tag ${GITHUB_REF_NAME} is not on ${DEFAULT_BRANCH}"
             exit 1
           fi
 
