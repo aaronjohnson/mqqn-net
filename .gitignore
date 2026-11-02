@@ -1,2 +1,4 @@
 .firebase/
 *.log
+ops/logs/
+.direnv/

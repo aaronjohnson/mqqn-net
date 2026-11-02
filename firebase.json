@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "mqqn-net",
     "public": "public",
     "cleanUrls": true,
     "ignore": [
