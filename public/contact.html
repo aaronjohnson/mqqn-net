@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - mqqn</title>
+    <meta name="description" content="Write to mqqn.net about any of its apps">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e8e8ec;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        a {
+            color: #33ff33;
+        }
+
+        a:hover {
+            color: #66ff66;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        h1 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            color: #aaa;
+            margin-bottom: 1rem;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 3rem 1rem;
+            }
+        }
+
+        label {
+            display: block;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        input, select, textarea {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            padding: 0.6rem;
+            background: #111;
+            color: #e8e8ec;
+            border: 1px solid #333;
+            font: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #33ff33;
+        }
+
+        button {
+            padding: 0.6rem 1.5rem;
+            background: #111;
+            color: #33ff33;
+            border: 1px solid #33ff33;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1a1a1a;
+        }
+
+        .said {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .trap {
+            position: absolute;
+            left: -9999px;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>Contact</h1>
+
+        <p>Questions, or asking to join a beta: this one form reaches me for all of mqqn.net's apps.</p>
+
+        <form id="contact">
+            <label>About
+                <select name="about">
+                    <option value="general">Something else</option>
+                    <option value="stepquest">Step Quest</option>
+                    <option value="forester">Digital Forester</option>
+                    <option value="highclearance">High Clearance</option>
+                </select>
+            </label>
+            <label>Your email
+                <input type="email" name="email" required maxlength="254" placeholder="you@example.com">
+            </label>
+            <label>Message (if you're just asking to join a beta, you can leave this empty)
+                <textarea name="message" rows="6" maxlength="4000"></textarea>
+            </label>
+            <label class="trap" aria-hidden="true">Website
+                <input name="website" tabindex="-1" autocomplete="off">
+            </label>
+            <button>Send</button>
+        </form>
+        <p class="said" id="said">Your address is used only to answer you. Ask and it's deleted.</p>
+
+        <a href="/" class="back">&larr; mqqn.net</a>
+    </main>
+    <script>
+    // Added to Firestore (add-only; nothing on this page can read it back). The rule is in ~/src/kosha.
+    const MESSAGES = "https://firestore.googleapis.com/v1/projects/mqqn-net/databases/(default)/documents/contact/inbox/messages";
+    const form = document.getElementById("contact"), said = document.getElementById("said");
+    const about = new URLSearchParams(location.search).get("about");
+    if ([...form.about.options].some(o => o.value === about)) form.about.value = about;
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (form.website.value) return;   // (a bot filled the field people don't see)
+        const fields = {
+            email: { stringValue: form.email.value.trim() },
+            about: { stringValue: form.about.value },
+            message: { stringValue: form.message.value.trim() },
+        };
+        try {
+            const r = await fetch(MESSAGES, { method: "POST", headers: { "Content-Type": "application/json" },
+                                              body: JSON.stringify({ fields }) });
+            said.textContent = r.ok ? "Thanks: it's on its way." : "That didn't go through; check the address and try again.";
+            if (r.ok) form.reset();
+        } catch (_) { said.textContent = "That didn't go through: no connection?"; }
+    });
+    </script>
+</body>
+</html>
