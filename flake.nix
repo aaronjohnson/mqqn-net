@@ -10,7 +10,7 @@
     in {
       devShells = forAll (pkgs: {
         default = pkgs.mkShell {
-          packages = [ pkgs.firebase-tools pkgs.just pkgs.curl ];
+          packages = [ pkgs.just pkgs.curl ];
         };
       });
     };
