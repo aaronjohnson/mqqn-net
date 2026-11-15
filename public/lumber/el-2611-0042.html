@@ -66,7 +66,7 @@
     <div><b>Packed</b>11/15/26</div>
   </div>
   <h2>Where it's going</h2>
-  <div class="route"><span>Epilogue Lumber</span> → <span>Kiln: drying, 8 days</span> → <span>Job site: Wilsonville</span></div>
+  <div class="route"><span>Epilogue Lumber</span> → <span>Kiln: Patrick Lumber, Philomath</span> → <span>Job site: Wilsonville</span></div>
 
   <h2 id="where">Where it's been</h2>
   <p class="note">The mill's and the kiln's entries below are samples. Scans logged from this page are real: they keep
@@ -111,7 +111,7 @@
   </table></div>
   <script>
   // The scanned board's digital twin: #b06 names a row; show that board's record and history first.
-  const HISTORY = [["Sawn at Epilogue Lumber", "11/14/26", false], ["Graded by D.B.", "11/15/26", false], ["Packed in EL-2611-0042", "11/15/26", false], ["On Load 2611-07, Flatbed 3", "11/16/26", false], ["Kiln: drying, 8 days", "next", true], ["Job site: Wilsonville", "after drying", true]];
+  const HISTORY = [["Sawn at Epilogue Lumber", "11/14/26", false], ["Graded by D.B.", "11/15/26", false], ["Packed in EL-2611-0042", "11/15/26", false], ["On Load 2611-07, Flatbed 3", "11/16/26", false], ["Kiln: Patrick Lumber, Philomath", "next", true], ["Job site: Wilsonville", "after drying", true]];
   function twin() {
     const box = document.getElementById("twin"), row = location.hash && document.getElementById(location.hash.slice(1));
     if (!row || row.tagName !== "TR") { box.hidden = true; return; }
@@ -131,7 +131,7 @@
   <script>
   // The trail: seeded sample entries, then live scans of any package on this load (Firestore REST).
   const DB = "https://firestore.googleapis.com/v1/projects/mqqn-net/databases/(default)/documents";
-  const PKG = "el-2611-0042", LOADPKGS = ["el-2611-0041", "el-2611-0042", "el-2611-0043"], SEED = [{"what": "Packed at Epilogue Lumber", "when": "2026-11-15T15:10:00-08:00", "lat": 45.2629, "lon": -122.6923, "acc": 10}, {"what": "Left the mill on Load 2611-07, Flatbed 3", "when": "2026-11-16T07:40:00-08:00", "lat": 45.2629, "lon": -122.6923, "acc": 10}, {"what": "Arrived at the kiln (scanned by the kiln)", "when": "2026-11-16T09:05:00-08:00", "lat": 45.1468, "lon": -122.5776, "acc": 15}];
+  const PKG = "el-2611-0042", LOADPKGS = ["el-2611-0041", "el-2611-0042", "el-2611-0043"], SEED = [{"what": "Packed at Epilogue Lumber (near Little Prince of Oregon, Aurora)", "when": "2026-11-15T15:10:00-08:00", "lat": 45.247, "lon": -122.74, "acc": 150}, {"what": "Left the mill on Load 2611-07, Flatbed 3", "when": "2026-11-16T07:40:00-08:00", "lat": 45.247, "lon": -122.74, "acc": 150}, {"what": "Arrived at Patrick Lumber, Philomath, for kiln drying (scanned on arrival)", "when": "2026-11-16T09:50:00-08:00", "lat": 44.54, "lon": -123.368, "acc": 300}];
   const here = location.pathname.split("/").pop();
   const fmt = t => new Date(t).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   const osm = (lat, lon) => `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=15/${lat}/${lon}`;
@@ -181,7 +181,7 @@
         currentDocument: { exists: false }, updateTransforms: [{ fieldPath: "at", setToServerValue: "REQUEST_TIME" }] }] };
       try {
         const r = await fetch(DB + ":commit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-        msg.textContent = r.ok ? "Logged. Thanks: it's on the trail below." : "That didn't save (" + r.status + ").";
+        msg.textContent = r.ok ? "Logged. Thanks: it's at the end of the trail above." : "That didn't save (" + r.status + ").";
         if (r.ok) { document.getElementById("lognote").value = ""; entries = SEED.concat(await live()); render(); }
       } catch (e) { msg.textContent = "That didn't save: no connection?"; }
     }, err => { msg.textContent = err.code === 1 ? "Location not shared: nothing was saved." : "Couldn't get a location: " + err.message; },
