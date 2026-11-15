@@ -33,6 +33,25 @@
   .twin ol { list-style: none; padding: 0; margin: 12px 0 0; border-left: 2px solid var(--rule); }
   .twin li { padding: 2px 0 8px 14px; position: relative; } .twin li::before { content: ""; position: absolute; left: -6px; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); }
   .twin li.next::before { background: var(--paper); border: 2px solid var(--ink); } .twin li span { color: var(--muted); font-size: 14px; }
+
+  .note { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+  .trail { list-style: none; padding: 0; margin: 0 0 12px; border-left: 2px solid var(--rule); }
+  .trail li { padding: 2px 0 10px 14px; position: relative; } .trail li::before { content: ""; position: absolute; left: -6px; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); }
+  .trail li.live::before { background: #2f8f5b; } .trail small { display: block; color: var(--muted); }
+  .trail a, .last a { color: inherit; }
+  .logbox { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 6px 0 14px; }
+  .logbox button { font: 600 15px system-ui, sans-serif; padding: 10px 16px; background: var(--ink); color: var(--paper); border: 0; border-radius: 4px; cursor: pointer; }
+  .logbox span { color: var(--muted); font-size: 14px; flex: 1; min-width: 12rem; }
+  .logbox input { flex: 1 1 100%; font: 15px system-ui, sans-serif; padding: 9px 10px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); border-radius: 4px; }
+  .map iframe { width: 100%; height: 240px; border: 1px solid var(--rule); }
+  tr.this td { font-weight: 700; } .last { margin: 10px 0 0; }
+
+  .stack svg { width: 100%; max-width: 30rem; height: auto; display: block; }
+  .stack .pc rect { fill: #d9b98a; stroke: #6b4f2a; stroke-width: 1; }
+  .stack .pc text { font: 600 11px system-ui, sans-serif; text-anchor: middle; fill: #3b2a14; }
+  .stack .pc.hl rect { fill: #f2c94c; stroke: #1e2a22; stroke-width: 2.5; }
+  .stack .stick { fill: #8a7a62; } .stack .cap { font: 10px system-ui, sans-serif; fill: var(--muted); }
+  .stack a { cursor: pointer; }
   footer { margin-top: 32px; font-size: 13px; color: var(--muted); } footer a { color: inherit; }
 </style>
 <main>
@@ -48,6 +67,26 @@
   </div>
   <h2>Where it's going</h2>
   <div class="route"><span>Epilogue Lumber</span> → <span>Kiln: drying, 8 days</span> → <span>Job site: Wilsonville</span></div>
+
+  <h2 id="where">Where it's been</h2>
+  <p class="note">The mill's and the kiln's entries below are samples. Scans logged from this page are real: they keep
+    the exact spot and time, so a lost package can be traced to where and when it was last seen. Any scan of a package on
+    the same truck counts for the whole load.</p>
+  <ol class="trail" id="trail"></ol>
+  <div class="logbox"><input id="lognote" type="text" maxlength="80" placeholder="Where is it? (optional, e.g. kiln bay 3)" aria-label="Where is it">
+    <button id="logbtn" type="button">Log where you scanned this</button>
+    <span id="logmsg">Saves your location and the time with this scan. Anyone with this tag can see it.</span></div>
+  <div class="map"><iframe id="map" title="Last known location" loading="lazy"></iframe></div>
+  <h2>On the same truck: Load 2611-07, Flatbed 3</h2>
+  <div class="wrap"><table>
+    <tr><th>Package</th><th>What</th><th class="n">Pieces</th><th class="n">BF</th></tr>
+    <tr><td>EL-2611-0041</td><td>Douglas-fir studs, 2x6x16, No. 2</td><td class="n">120</td><td class="n">1920</td></tr>
+<tr class="this"><td>EL-2611-0042 (this one)</td><td>Douglas-fir cants and timbers, mixed grades</td><td class="n">10</td><td class="n">572</td></tr>
+<tr><td>EL-2611-0043</td><td>Western red cedar boards, 1x6x12, Select</td><td class="n">80</td><td class="n">480</td></tr>
+  </table></div>
+
+  <h2 id="stack">In the package</h2>
+  <div class="stack"><svg viewBox="0 0 319 151" role="img" aria-label="End view of the package: boards by layer"><g class="pc" id="pc07"><rect x="10.0" y="103.0" width="72.0" height="24.0" rx="2"/><text x="46.0" y="119.0">07</text></g><g class="pc" id="pc08"><rect x="85.6" y="103.0" width="72.0" height="24.0" rx="2"/><text x="121.6" y="119.0">08</text></g><g class="pc" id="pc09"><rect x="161.2" y="103.0" width="72.0" height="24.0" rx="2"/><text x="197.2" y="119.0">09</text></g><g class="pc" id="pc10"><rect x="236.8" y="103.0" width="72.0" height="24.0" rx="2"/><text x="272.8" y="119.0">10</text></g><rect class="stick" x="10.0" y="98.5" width="298.8" height="4.5"/><g class="pc" id="pc01"><rect x="58.0" y="50.5" width="48.0" height="48.0" rx="2"/><text x="82.0" y="78.5">01</text></g><g class="pc" id="pc02"><rect x="109.6" y="50.5" width="48.0" height="48.0" rx="2"/><text x="133.6" y="78.5">02</text></g><g class="pc" id="pc03"><rect x="161.2" y="50.5" width="48.0" height="48.0" rx="2"/><text x="185.2" y="78.5">03</text></g><g class="pc" id="pc04"><rect x="212.8" y="50.5" width="48.0" height="48.0" rx="2"/><text x="236.8" y="78.5">04</text></g><rect class="stick" x="10.0" y="46.0" width="298.8" height="4.5"/><g class="pc" id="pc05"><rect x="121.6" y="10.0" width="36.0" height="36.0" rx="2"/><text x="139.6" y="32.0">05</text></g><g class="pc" id="pc06"><rect x="161.2" y="10.0" width="36.0" height="36.0" rx="2"/><text x="179.2" y="32.0">06</text></g><text class="cap" x="10.0" y="145.0">End view, as loaded · sample layout · tap a number</text></svg></div>
   <h2>Summary by grade</h2>
   <div class="wrap"><table>
     <tr><th>Grade</th><th class="n">Pieces</th><th class="n">Board feet</th></tr>
@@ -78,11 +117,90 @@
     if (!row || row.tagName !== "TR") { box.hidden = true; return; }
     const [tag, product, size, grade, bf] = [...row.cells].map(c => c.textContent);
     box.innerHTML = `<div class="k">You scanned a board</div><h3>${tag}</h3><div>${product} · ${size} · ${grade} · ${bf} BF</div>
-      <ol>${HISTORY.map(([what, when, next]) => `<li class="${next ? "next" : ""}">${what} <span>${when}</span></li>`).join("")}</ol>`;
+      <ol>${HISTORY.map(([what, when, next]) => `<li class="${next ? "next" : ""}">${what} <span>${when}</span></li>`).join("")}</ol>
+      <p class="last"><a href="#stack" id="pos"></a></p>
+      <p class="last"><a href="#where" id="lastseen">Package last seen: checking…</a></p>`;
     box.hidden = false;
     box.scrollIntoView({ block: "start" });   // a #b06 link jumps to the row; the twin comes first
+    if (window.fillLast) fillLast();
+    if (window.fillPos) fillPos();
   }
   addEventListener("hashchange", twin); twin();
+  </script>
+
+  <script>
+  // The trail: seeded sample entries, then live scans of any package on this load (Firestore REST).
+  const DB = "https://firestore.googleapis.com/v1/projects/mqqn-net/databases/(default)/documents";
+  const PKG = "el-2611-0042", LOADPKGS = ["el-2611-0041", "el-2611-0042", "el-2611-0043"], SEED = [{"what": "Packed at Epilogue Lumber", "when": "2026-11-15T15:10:00-08:00", "lat": 45.2629, "lon": -122.6923, "acc": 10}, {"what": "Left the mill on Load 2611-07, Flatbed 3", "when": "2026-11-16T07:40:00-08:00", "lat": 45.2629, "lon": -122.6923, "acc": 10}, {"what": "Arrived at the kiln (scanned by the kiln)", "when": "2026-11-16T09:05:00-08:00", "lat": 45.1468, "lon": -122.5776, "acc": 15}];
+  const here = location.pathname.split("/").pop();
+  const fmt = t => new Date(t).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  const osm = (lat, lon) => `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=15/${lat}/${lon}`;
+  let entries = [];
+  async function live() {
+    const q = { structuredQuery: { from: [{ collectionId: "events" }], limit: 100, where: { fieldFilter: {
+      field: { fieldPath: "pkg" }, op: "IN", value: { arrayValue: { values: LOADPKGS.map(s => ({ stringValue: s })) } } } } } };
+    try {
+      const r = await fetch(DB + "/lumber/scans:runQuery", { method: "POST", body: JSON.stringify(q) });
+      const rows = r.ok ? await r.json() : [];
+      return rows.filter(x => x.document).map(x => { const f = x.document.fields, n = k => Number(f[k].doubleValue ?? f[k].integerValue);
+        const pk = f.pkg.stringValue, b = f.board ? f.board.stringValue : "";
+        return { live: true, when: f.at.timestampValue, lat: n("lat"), lon: n("lon"), acc: n("acc"),
+          what: (pk === PKG ? (b ? "This package, board " + b.slice(1) : "This package") : pk.toUpperCase() + ", same truck") + " scanned"
+            + (f.note ? ": “" + f.note.stringValue.replace(/[<>&]/g, "") + "”" : "") }; });
+    } catch (e) { return []; }
+  }
+  function render() {
+    entries.sort((a, b) => new Date(a.when) - new Date(b.when));
+    document.getElementById("trail").innerHTML = entries.map(x => `<li class="${x.live ? "live" : ""}">${x.what}
+      <small>${fmt(x.when)} · <a href="${osm(x.lat, x.lon)}" target="_blank" rel="noopener">${x.lat.toFixed(5)}, ${x.lon.toFixed(5)}</a>
+      (±${Math.round(x.acc)} m)${x.live ? "" : " · sample"}</small></li>`).join("");
+    const last = entries[entries.length - 1];
+    if (last) {
+      const d = 0.01;
+      document.getElementById("map").src = `https://www.openstreetmap.org/export/embed.html?bbox=${last.lon - d},${last.lat - d},${last.lon + d},${last.lat + d}&layer=mapnik&marker=${last.lat},${last.lon}`;
+    }
+    window.fillLast();
+  }
+  window.fillLast = () => {
+    const a = document.getElementById("lastseen"), last = entries[entries.length - 1];
+    if (a && last) a.textContent = "Package last seen: " + fmt(last.when) + (last.live ? "" : " (sample)") + " · " + last.what.toLowerCase();
+  };
+  document.getElementById("logbtn").addEventListener("click", () => {
+    const msg = document.getElementById("logmsg");
+    if (!navigator.geolocation) { msg.textContent = "This browser can't share a location."; return; }
+    msg.textContent = "Asking for your location…";
+    navigator.geolocation.getCurrentPosition(async pos => {
+      const { latitude: lat, longitude: lon, accuracy: acc } = pos.coords;
+      const board = /^#b[0-9]{2}$/.test(location.hash) ? location.hash.slice(1) : "";
+      const fields = { pkg: { stringValue: PKG }, lat: { doubleValue: lat }, lon: { doubleValue: lon }, acc: { doubleValue: acc } };
+      if (board) fields.board = { stringValue: board };
+      const note = document.getElementById("lognote").value.trim().slice(0, 80);
+      if (note) fields.note = { stringValue: note };
+      const id = Array.from(crypto.getRandomValues(new Uint8Array(10)), b => b.toString(16).padStart(2, "0")).join("");
+      const body = { writes: [{ update: { name: DB.replace("https://firestore.googleapis.com/v1/", "") + "/lumber/scans/events/" + id, fields },
+        currentDocument: { exists: false }, updateTransforms: [{ fieldPath: "at", setToServerValue: "REQUEST_TIME" }] }] };
+      try {
+        const r = await fetch(DB + ":commit", { method: "POST", body: JSON.stringify(body) });
+        msg.textContent = r.ok ? "Logged. Thanks: it's on the trail below." : "That didn't save (" + r.status + ").";
+        if (r.ok) { document.getElementById("lognote").value = ""; entries = SEED.concat(await live()); render(); }
+      } catch (e) { msg.textContent = "That didn't save: no connection?"; }
+    }, err => { msg.textContent = err.code === 1 ? "Location not shared: nothing was saved." : "Couldn't get a location: " + err.message; },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+  });
+  // the seeded trail at once; live scans join it when the database answers
+  (async () => { entries = SEED.slice(); render(); entries = SEED.concat(await live()); render(); })();
+  </script>
+
+  <script>
+  // which piece is which in the end view; the scanned board lights up, and its twin says where it sits
+  const POS = {"b07": "In the package: layer 1 of 3 from the bottom, 1st from the left", "b08": "In the package: layer 1 of 3 from the bottom, 2nd from the left", "b09": "In the package: layer 1 of 3 from the bottom, 3rd from the left", "b10": "In the package: layer 1 of 3 from the bottom, 4th from the left", "b01": "In the package: layer 2 of 3 from the bottom, 1st from the left", "b02": "In the package: layer 2 of 3 from the bottom, 2nd from the left", "b03": "In the package: layer 2 of 3 from the bottom, 3rd from the left", "b04": "In the package: layer 2 of 3 from the bottom, 4th from the left", "b05": "In the package: layer 3 of 3 from the bottom, 1st from the left", "b06": "In the package: layer 3 of 3 from the bottom, 2nd from the left"};
+  window.fillPos = () => {
+    document.querySelectorAll(".pc").forEach(g => g.classList.toggle("hl", "#" + g.id.replace("pc", "b") === location.hash));
+    const a = document.getElementById("pos"), b = location.hash.slice(1);
+    if (a) a.textContent = POS[b] || "";
+  };
+  document.querySelectorAll(".pc").forEach(g => g.addEventListener("click", () => { location.hash = g.id.replace("pc", "b"); }));
+  addEventListener("hashchange", fillPos); fillPos();
   </script>
   <footer>Package tracking by <a href="https://mqqn.net">mqqn.net</a>. Questions about this sample:
     <a href="https://mqqn.net/contact?about=general&amp;from=epilogue-manifest">mqqn.net/contact</a>.</footer>
