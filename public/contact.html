@@ -133,6 +133,8 @@
                     <option value="stepquest">Step Quest</option>
                     <option value="forester">Digital Forester</option>
                     <option value="highclearance">High Clearance</option>
+                    <option value="puzzles-custom">A custom puzzle book</option>
+                    <option value="puzzles-partner">Puzzles: partnerships, licensing, acquisition</option>
                 </select>
             </label>
             <label>Your email
@@ -156,6 +158,8 @@
     const form = document.getElementById("contact"), said = document.getElementById("said");
     const about = new URLSearchParams(location.search).get("about");
     if ([...form.about.options].some(o => o.value === about)) form.about.value = about;
+    // ?from=<tag>: the printed piece (a QR on a puzzle book, say) that brought them here
+    const from = new URLSearchParams(location.search).get("from");
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (form.website.value) return;   // (a bot filled the field people don't see)
@@ -164,6 +168,7 @@
             about: { stringValue: form.about.value },
             message: { stringValue: form.message.value.trim() },
         };
+        if (from && /^[a-z0-9-]{1,40}$/.test(from)) fields.from = { stringValue: from };
         try {
             const r = await fetch(MESSAGES, { method: "POST", headers: { "Content-Type": "application/json" },
                                               body: JSON.stringify({ fields }) });
