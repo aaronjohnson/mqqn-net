@@ -140,7 +140,7 @@
     const q = { structuredQuery: { from: [{ collectionId: "events" }], limit: 100, where: { fieldFilter: {
       field: { fieldPath: "pkg" }, op: "IN", value: { arrayValue: { values: LOADPKGS.map(s => ({ stringValue: s })) } } } } } };
     try {
-      const r = await fetch(DB + "/lumber/scans:runQuery", { method: "POST", body: JSON.stringify(q) });
+      const r = await fetch(DB + "/lumber/scans:runQuery", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(q) });
       const rows = r.ok ? await r.json() : [];
       return rows.filter(x => x.document).map(x => { const f = x.document.fields, n = k => Number(f[k].doubleValue ?? f[k].integerValue);
         const pk = f.pkg.stringValue, b = f.board ? f.board.stringValue : "";
@@ -180,7 +180,7 @@
       const body = { writes: [{ update: { name: DB.replace("https://firestore.googleapis.com/v1/", "") + "/lumber/scans/events/" + id, fields },
         currentDocument: { exists: false }, updateTransforms: [{ fieldPath: "at", setToServerValue: "REQUEST_TIME" }] }] };
       try {
-        const r = await fetch(DB + ":commit", { method: "POST", body: JSON.stringify(body) });
+        const r = await fetch(DB + ":commit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
         msg.textContent = r.ok ? "Logged. Thanks: it's on the trail below." : "That didn't save (" + r.status + ").";
         if (r.ok) { document.getElementById("lognote").value = ""; entries = SEED.concat(await live()); render(); }
       } catch (e) { msg.textContent = "That didn't save: no connection?"; }
