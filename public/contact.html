@@ -114,6 +114,13 @@
             font-size: 0.9rem;
         }
 
+        .errata[hidden] { display: none; }
+
+        .hint {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
         .trap {
             position: absolute;
             left: -9999px;
@@ -141,6 +148,17 @@
             <label>Your email
                 <input type="email" name="email" required maxlength="254" placeholder="you@example.com">
             </label>
+            <div class="errata" id="errata" hidden>
+                <label>Page <span class="hint">(as printed at its foot: 37, or xii in the front)</span>
+                    <input name="page" maxlength="6" autocomplete="off" placeholder="37">
+                </label>
+                <label>Puzzle id <span class="hint">(if it's about a puzzle: eight characters, beside its answer)</span>
+                    <input name="puzzle" maxlength="9" autocomplete="off" placeholder="3bdf4a41">
+                </label>
+                <label>Credit me as <span class="hint">(optional: the name to print beside the correction; leave empty to stay unnamed)</span>
+                    <input name="credit" maxlength="60" autocomplete="name">
+                </label>
+            </div>
             <label>Message (if you're just asking to join a beta, you can leave this empty)
                 <textarea name="message" rows="6" maxlength="4000"></textarea>
             </label>
@@ -157,24 +175,52 @@
     // Added to Firestore (add-only; nothing on this page can read it back). The rule is in ~/src/kosha.
     const MESSAGES = "https://firestore.googleapis.com/v1/projects/mqqn-net/databases/(default)/documents/contact/inbox/messages";
     const form = document.getElementById("contact"), said = document.getElementById("said");
-    const about = new URLSearchParams(location.search).get("about");
+    const errata = document.getElementById("errata");
+    const q = new URLSearchParams(location.search);
+    // a link may fill in the topic, and for a mistake in a puzzle book, the page and the puzzle's id.
+    // Each is checked against its pattern and set as a field's value (never as markup).
+    const about = q.get("about");
     if ([...form.about.options].some(o => o.value === about)) form.about.value = about;
+    const PAGE = /^[0-9ivxlc]{1,6}$/, PUZZLE = /^[0-9a-f]{8}$/;
+    const page = (q.get("page") || "").toLowerCase(), puzzle = (q.get("puzzle") || "").replace(/^#/, "").toLowerCase();
+    if (PAGE.test(page)) form.page.value = page;
+    if (PUZZLE.test(puzzle)) form.puzzle.value = puzzle;
+    const showErrata = () => { errata.hidden = form.about.value !== "puzzles-errata"; };
+    form.about.addEventListener("change", showErrata);
+    showErrata();
     // ?from=<tag>: the printed piece (a QR on a puzzle book, say) that brought them here
-    const from = new URLSearchParams(location.search).get("from");
+    const from = q.get("from");
+    // A message's id is the SHA-256 of what it says; the rule (~/src/kosha) recomputes it, so the same
+    // message can't land twice. Keep this list and order in step with the rule's key().
+    async function key(f) {
+        const s = [f.email.toLowerCase(), f.about, f.message, f.page || "", f.puzzle || "", f.credit || "", f.from || ""].join("|");
+        const h = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+        return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, "0")).join("");
+    }
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (form.website.value) return;   // (a bot filled the field people don't see)
-        const fields = {
-            email: { stringValue: form.email.value.trim() },
-            about: { stringValue: form.about.value },
-            message: { stringValue: form.message.value.trim() },
-        };
-        if (from && /^[a-z0-9-]{1,40}$/.test(from)) fields.from = { stringValue: from };
+        const f = { email: form.email.value.trim(), about: form.about.value, message: form.message.value.trim() };
+        if (f.about === "puzzles-errata") {
+            const pg = form.page.value.trim().toLowerCase(), pz = form.puzzle.value.trim().replace(/^#/, "").toLowerCase();
+            const cr = form.credit.value.trim();
+            if (pg && !PAGE.test(pg)) { said.textContent = "The page is its number as printed: 37, or xii in the front."; return; }
+            if (pz && !PUZZLE.test(pz)) { said.textContent = "A puzzle's id is eight characters, like 3bdf4a41."; return; }
+            if (pg) f.page = pg;
+            if (pz) f.puzzle = pz;
+            if (cr) f.credit = cr;
+        }
+        if (from && /^[a-z0-9-]{1,40}$/.test(from)) f.from = from;
+        const fields = Object.fromEntries(Object.entries(f).map(([k, v]) => [k, { stringValue: v }]));
         try {
-            const r = await fetch(MESSAGES, { method: "POST", headers: { "Content-Type": "application/json" },
-                                              body: JSON.stringify({ fields }) });
-            said.textContent = r.ok ? "Thanks: it's on its way." : "That didn't go through; check the address and try again.";
-            if (r.ok) form.reset();
+            const r = await fetch(MESSAGES + "?documentId=" + await key(f), {
+                method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fields }) });
+            if (r.ok || r.status === 409) {   // 409: this very message already arrived (a second click)
+                said.textContent = "Thanks: it's on its way.";
+                form.reset(); showErrata();
+            } else {
+                said.textContent = "That didn't go through. Check the address, and keep to two links or fewer.";
+            }
         } catch (_) { said.textContent = "That didn't go through: no connection?"; }
     });
     </script>
